@@ -1,5 +1,3 @@
-import './App.css'
-
 import { lazy, Suspense } from 'react'
 
 const AuthHomePage = lazy(() => import('@pages/Home'))
