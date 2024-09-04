@@ -9,7 +9,6 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "types": ["@types/react", "@testing-library/jest-dom/vitest"],
-
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
@@ -17,16 +16,16 @@
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
-
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-
-    /* Aliases */
     "paths": {
-      "@app/*": ["src/*"]
-    }
+      "@/*": ["./src/*"],
+      "@components/*": ["./src/components/*"],
+      "@pages/*": ["./src/pages/*"],
+    },
+
   },
   "include": ["src"]
 }
