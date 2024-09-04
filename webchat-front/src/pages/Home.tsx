@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import { AuthGuard } from '@/components/AuthGuard'
 import { ChatWindow } from '@/components/design/home/ChatWindow'
 import { MessageInput } from '@/components/design/home/MessageInput'
 import { Sidebar } from '@/components/design/home/Sidebar'
@@ -36,7 +37,7 @@ const HomePage = () => {
   ])
 
   return (
-    <div className="flex h-screen w-screen bg-gradient-to-br from-blue-400 via-pink-500 to-red-500">
+    <>
       <Sidebar chats={chats} onSelectChat={chat => console.log(chat)} />
       <main className="flex flex-col h-full relative w-full">
         <ChatWindow currentChat={chats[0]} messages={messages} />
@@ -44,14 +45,14 @@ const HomePage = () => {
           <MessageInput isActive onSendMessage={() => {}} />
         </div>
       </main>
-    </div>
+    </>
   )
 }
 
 const AuthHomePage = () => {
   return (
-    <div>
-      <HomePage />
+    <div className="flex h-screen w-screen bg-gradient-to-br from-blue-400 via-pink-500 to-red-500">
+      <AuthGuard render={() => <HomePage />} />
     </div>
   )
 }
