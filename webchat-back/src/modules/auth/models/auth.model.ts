@@ -1,9 +1,21 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql'
 
 @ObjectType()
-export class LoginResponse {
+export class AuthUser {
   @Field(() => ID)
   id: string
+
+  @Field()
+  pseudo: string
+
+  @Field()
+  email: string
+}
+
+@ObjectType()
+export class LoginResponse {
+  @Field(() => AuthUser)
+  user: AuthUser
 
   @Field()
   token: string
@@ -11,8 +23,8 @@ export class LoginResponse {
 
 @ObjectType()
 export class RegisterResponse {
-  @Field(() => ID)
-  id: string
+  @Field(() => AuthUser)
+  user: AuthUser
 
   @Field()
   token: string

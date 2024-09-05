@@ -10,17 +10,23 @@ import {
   AppConfiguration,
   NODE_ENV
 } from '../model/app-configuration'
+import { JWT_EXPIRATION, JWT_SECRET, JWTConfiguration } from '../model/jwt-configuration'
 
 @Injectable()
 export class ConfigurationService {
   private logger = new LoggerService()
 
   private _appConfig!: AppConfiguration
+  private _jwtConfig!: JWTConfiguration
 
   public isProd!: boolean
 
   get appConfig(): AppConfiguration {
     return this._appConfig
+  }
+
+  get jwtConfig(): JWTConfiguration {
+    return this._jwtConfig
   }
 
   constructor(private nestConfigService: ConfigService) {
@@ -41,6 +47,12 @@ export class ConfigurationService {
     }
 
     this.isProd = appEnv.includes('prod')
+
+    // JWT
+    this._jwtConfig = {
+      jwtSecret: this.getVariableFromEnvFile(JWT_SECRET),
+      jwtExpiration: this.getVariableFromEnvFile(JWT_EXPIRATION)
+    }
   }
 
   private getVariableFromEnvFile(key: string): string {

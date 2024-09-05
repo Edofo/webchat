@@ -1,21 +1,17 @@
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common'
+import { ExecutionContext, Injectable } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { GqlExecutionContext } from '@nestjs/graphql'
-
-import { ConfigurationService } from '@infrastructure/configuration/services/configuration.service'
-import { LoggerService } from '@infrastructure/logger/services/logger.service'
+import { AuthGuard } from '@nestjs/passport'
 
 import { IS_PUBLIC_KEY } from '@decorators/public.decorator'
 
 @Injectable()
-export class ClerkAuthGuard implements CanActivate {
-  constructor(
-    private reflector: Reflector,
-    private configService: ConfigurationService,
-    private logger: LoggerService
-  ) {}
+export class JwtAuthGuard extends AuthGuard('jwt') {
+  constructor(private reflector: Reflector) {
+    super()
+  }
 
-  async canActivate(context: ExecutionContext) {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
       context.getClass()
@@ -23,20 +19,8 @@ export class ClerkAuthGuard implements CanActivate {
 
     if (isPublic) return true
 
-    const req = this.getRequest(context)
-
-    if (!req?.cookies?.__session) throw new UnauthorizedException()
-
-    try {
-      // const verify = await clerkClient.verifyToken(req.cookies.__session, {
-      //   jwtKey: this.configService.authConfig.jwtKey
-      // })
-      // if (!verify) throw new UnauthorizedException()
-
-      return true
-    } catch {
-      throw new UnauthorizedException()
-    }
+    const canActivate = await super.canActivate(context)
+    return canActivate as boolean
   }
 
   getRequest(context: ExecutionContext) {

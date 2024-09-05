@@ -19,6 +19,7 @@
     "noFallthroughCasesInSwitch": false,
     "strict": true,
     "paths": {
+      "@/*": ["./src/*"],
       "@modules/*": ["./src/modules/*"],
       "@common/*": ["./src/common/*"],
       "@infrastructure/*": ["./src/infrastructure/*"],

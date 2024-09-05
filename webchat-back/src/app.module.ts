@@ -8,24 +8,13 @@ import { ConfigurationModule } from '@infrastructure/configuration/configuration
 import { DatabaseModule } from '@infrastructure/database/database.module'
 import { LoggerModule } from '@infrastructure/logger/logger.module'
 
-import { AirplaneModule } from '@modules/airplane/airplane.module'
-import { IncidentModule } from '@modules/incident/incident.module'
-import { MaintenanceModule } from '@modules/maintenance/maintenance.module'
-import { QuizModule } from '@modules/quiz/quiz.module'
-import { ReservationModule } from '@modules/reservation/reservation.module'
-import { ResourceModule } from '@modules/resource/resource.module'
+import { AuthModule } from '@modules/auth/auth.module'
 
 import { upperDirectiveTransformer } from '@common/directives/uper-case.directive'
 
 @Module({
   imports: [
-    AirplaneModule,
-    IncidentModule,
-    MaintenanceModule,
-    QuizModule,
-    ReservationModule,
-    ResourceModule,
-    // UserModule,
+    AuthModule,
 
     // CORE
     ConfigurationModule,
