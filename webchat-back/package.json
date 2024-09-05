@@ -1,5 +1,5 @@
 {
-  "name": "nestjs-graphql-api",
+  "name": "webchat-back",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -35,8 +35,10 @@
     "chalk": "4",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "express": "^4.19.2",
     "graphql": "^16.9.0",
     "graphql-query-complexity": "^1.0.0",
+    "graphql-subscriptions": "^2.0.0",
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",

@@ -5,7 +5,7 @@ import * as jwt from 'jsonwebtoken'
 import { ConfigurationService } from '@infrastructure/configuration/services/configuration.service'
 import { PrismaService } from '@infrastructure/database/services/prisma.service'
 
-import { LoginInput, RegisterInput } from '../interfaces/auth.dto'
+import { LoginInput, RegisterInput } from '../models/auth-input.model'
 import { AuthUser } from '@/types/modules/auth.types'
 
 @Injectable()

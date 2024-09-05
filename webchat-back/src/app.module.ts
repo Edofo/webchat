@@ -12,9 +12,12 @@ import { AuthModule } from '@modules/auth/auth.module'
 
 import { upperDirectiveTransformer } from '@common/directives/uper-case.directive'
 
+import { ChatModule } from './modules/chat/chat.module'
+
 @Module({
   imports: [
     AuthModule,
+    ChatModule,
 
     // CORE
     ConfigurationModule,
@@ -27,6 +30,7 @@ import { upperDirectiveTransformer } from '@common/directives/uper-case.directiv
       sortSchema: true,
       transformSchema: schema => upperDirectiveTransformer(schema, 'upper'),
       playground: true,
+      context: ({ req, res }) => ({ req, res }),
       buildSchemaOptions: {
         directives: [
           new GraphQLDirective({
@@ -34,6 +38,14 @@ import { upperDirectiveTransformer } from '@common/directives/uper-case.directiv
             locations: [DirectiveLocation.FIELD_DEFINITION]
           })
         ]
+      },
+      subscriptions: {
+        'graphql-ws': {
+          path: '/subscriptions'
+          // onConnect: () => {
+          //   console.log('Connected to websocket')
+          // }
+        }
       }
     })
   ],

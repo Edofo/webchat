@@ -1,0 +1,63 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+directive @upper on FIELD_DEFINITION
+
+type AuthUser {
+  email: String!
+  id: ID!
+  pseudo: String!
+}
+
+type ChatMessage {
+  createdAt: DateTime!
+  id: String!
+  text: String!
+  user: UserMessage!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type LoginResponse {
+  token: String!
+  user: AuthUser!
+}
+
+type Mutation {
+  login(data: LoginInput!): LoginResponse!
+  register(data: RegisterInput!): RegisterResponse!
+  sendMessage(message: String!, roomId: String!): ChatMessage!
+}
+
+type Query {
+  getRoomMessages(roomId: String!): [ChatMessage!]!
+}
+
+input RegisterInput {
+  email: String!
+  password: String!
+  pseudo: String!
+}
+
+type RegisterResponse {
+  token: String!
+  user: AuthUser!
+}
+
+type Subscription {
+  userJoinedRoom(roomId: String!): ChatMessage!
+}
+
+type UserMessage {
+  id: String!
+  pseudo: String!
+}

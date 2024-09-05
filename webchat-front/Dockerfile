@@ -3,17 +3,17 @@ FROM node:22 AS build
 WORKDIR /app
 
 # Copy files
-COPY package.json yarn.lock ./
+COPY package.json pnpm-lock.yaml ./
 
-# Install node modules
-RUN yarn install --frozen-lockfile --ignore-scripts
+# Install pnpm & node modules
+RUN npm install -g pnpm && pnpm install --frozen-lockfile --ignore-scripts
 
 COPY . ./
 
 ENV NODE_ENV=production
 
 # Build app
-RUN yarn global add dotenv-cli && dotenv -e .env -- yarn build
+RUN pnpm global add dotenv-cli && dotenv -e .env -- pnpm build
 
 FROM nginx:stable-alpine AS run
 
