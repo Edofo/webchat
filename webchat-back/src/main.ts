@@ -6,6 +6,8 @@ import helmet from 'helmet'
 import * as morgan from 'morgan'
 
 import { ConfigurationService } from '@infrastructure/configuration/services/configuration.service'
+import { GlobalExceptionFilter } from '@infrastructure/filter/global-exception.filter'
+import { LoggerInterceptor } from '@infrastructure/logger/logger.interceptor'
 import { LoggerService } from '@infrastructure/logger/services/logger.service'
 
 import { AppModule } from './app.module'
@@ -15,9 +17,7 @@ async function bootstrap() {
   const config = app.get(ConfigurationService)
   const logger = app.get(LoggerService)
 
-  // app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe({ transform: true }))
-  // app.enableVersioning({ type: VersioningType.URI });
 
   // Middlewares
   app.use(morgan('dev'))
@@ -29,6 +29,9 @@ async function bootstrap() {
     credentials: true
   })
   app.use(cookieParser())
+
+  app.useGlobalFilters(new GlobalExceptionFilter(logger))
+  app.useGlobalInterceptors(new LoggerInterceptor(logger))
 
   await app.listen(config.appConfig.port)
   logger.info(`🚀 Application is running on: ${await app.getUrl()}`, 'bootstrap')

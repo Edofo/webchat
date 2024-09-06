@@ -5,10 +5,12 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useAuth } from '@/contexts/AuthContext'
+import { useToast } from '@/hooks/useToast'
 import { isValidEmail } from '@/lib/isValidData'
 
 export const SignIn = () => {
   const { login } = useAuth()
+  const { addToast } = useToast()
 
   const [showPassword, setShowPassword] = useState(false)
 
@@ -16,16 +18,10 @@ export const SignIn = () => {
     e.preventDefault()
 
     const email = e.currentTarget.email.value
-    if (!isValidEmail(email)) {
-      alert('Invalid email')
-      return
-    }
+    if (!isValidEmail(email)) return addToast('Invalid email', 'error')
 
     const password = e.currentTarget.password.value
-    if (password.length < 6) {
-      alert('Password must be at least 6 characters')
-      return
-    }
+    if (password.length < 6) return addToast('Password must be at least 6 characters', 'error')
 
     login({ email, password })
   }

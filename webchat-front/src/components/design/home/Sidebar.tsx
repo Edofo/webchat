@@ -60,7 +60,10 @@ export const Sidebar = () => {
         </Popover>
         <h2 className="flex justify-between items-center text-2xl font-bold text-white mb-1">
           Amis
-          <div className="cursor-pointer" onClick={() => addFriend('test')}>
+          <div
+            className="cursor-pointer p-2 bg-white bg-opacity-0 hover:bg-opacity-30 transition-colors rounded"
+            onClick={() => addFriend('test')}
+          >
             <UserPlus className="h-5 w-5 text-white r" />
           </div>
         </h2>
