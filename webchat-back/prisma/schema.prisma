@@ -18,5 +18,40 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  friendsSent    Friend[]  @relation("sender")
+  friendsReceive Friend[]  @relation("receiver")
+  MessageSent    Message[] @relation("senderMessage")
+  MessageReceive Message[] @relation("receiverMessage")
+
   @@index([pseudo, email])
+}
+
+model Friend {
+  senderId String
+  sender   User   @relation(fields: [senderId], references: [id], name: "sender")
+
+  receiverId String
+  receiver   User   @relation(fields: [receiverId], references: [id], name: "receiver")
+
+  createdAt DateTime @default(now())
+
+  @@id([senderId, receiverId])
+  @@index([senderId, receiverId])
+}
+
+model Message {
+  id String @id @default(uuid())
+
+  content String
+  isRead  Boolean @default(false)
+
+  senderId String
+  sender   User   @relation(fields: [senderId], references: [id], name: "senderMessage")
+
+  receiverId String
+  receiver   User   @relation(fields: [receiverId], references: [id], name: "receiverMessage")
+
+  createdAt DateTime @default(now())
+
+  @@index([senderId, receiverId])
 }

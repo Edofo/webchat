@@ -11,9 +11,9 @@ type AuthUser {
 }
 
 type ChatMessage {
+  content: String!
   createdAt: DateTime!
   id: String!
-  text: String!
   user: UserMessage!
 }
 
@@ -21,6 +21,12 @@ type ChatMessage {
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+type FriendResponse {
+  id: ID!
+  isOnline: Boolean!
+  pseudo: String!
+}
 
 input LoginInput {
   email: String!
@@ -33,13 +39,15 @@ type LoginResponse {
 }
 
 type Mutation {
+  addFriend(pseudo: String!): FriendResponse!
   login(data: LoginInput!): LoginResponse!
   register(data: RegisterInput!): RegisterResponse!
-  sendMessage(message: String!, roomId: String!): ChatMessage!
+  sendMessage(friendId: String!, message: String!): ChatMessage!
 }
 
 type Query {
   getMe: AuthUser!
+  getMyFriends: [FriendResponse!]!
   getRoomMessages(roomId: String!): [ChatMessage!]!
 }
 
@@ -55,7 +63,8 @@ type RegisterResponse {
 }
 
 type Subscription {
-  userJoinedRoom(roomId: String!): ChatMessage!
+  userFriend: FriendResponse!
+  userJoinedRoom(friendId: String!): ChatMessage!
 }
 
 type UserMessage {

@@ -24,26 +24,26 @@ interface ChatContextType {
 const ChatContext = createContext<ChatContextType | undefined>(undefined)
 
 export const ChatProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [selectedRoom, setSelectedRoom] = useState<ChatRoom | undefined>(undefined)
+  const [selectedFriend, setSelectedFriend] = useState<ChatRoom | undefined>(undefined)
 
   const { subscribeToMore, data, loading, refetch } = useQuery(GET_ROOMMESSAGES, {
-    variables: selectedRoom ? { roomId: selectedRoom.id } : undefined,
-    skip: !selectedRoom
+    variables: selectedFriend ? { roomId: selectedFriend.id } : undefined,
+    skip: !selectedFriend
   })
 
   const [sendMessage, { loading: sendingMessage }] = useMutation(SEND_MESSAGE)
 
   const sendNewMessage = useCallback(
     async (message: string) => {
-      if (!selectedRoom) return
-      await sendMessage({ variables: { roomId: selectedRoom.id, message } })
+      if (!selectedFriend) return
+      await sendMessage({ variables: { friendId: selectedFriend.id, message } })
     },
-    [selectedRoom, sendMessage]
+    [selectedFriend, sendMessage]
   )
 
   const setRoom = useCallback(
     (room: ChatRoom) => {
-      setSelectedRoom(room)
+      setSelectedFriend(room)
       refetch({ roomId: room.id })
     },
     [refetch]
@@ -52,10 +52,10 @@ export const ChatProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const roomMessages = useMemo(() => data?.getRoomMessages || [], [data])
 
   useEffect(() => {
-    if (!selectedRoom) return
+    if (!selectedFriend) return
     const unsubscribe = subscribeToMore({
       document: ON_MESSAGE_ADDED,
-      variables: { roomId: selectedRoom.id },
+      variables: { friendId: selectedFriend.id },
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data) return prev
         const newMessage = subscriptionData.data.userJoinedRoom
@@ -65,17 +65,17 @@ export const ChatProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }
     })
     return () => unsubscribe()
-  }, [selectedRoom, subscribeToMore])
+  }, [selectedFriend, subscribeToMore])
 
   const value: ChatContextType = useMemo(
     () => ({
-      room: selectedRoom,
+      room: selectedFriend,
       roomMessages,
       setRoom,
       sendNewMessage,
       loadingMessage: loading || sendingMessage
     }),
-    [selectedRoom, roomMessages, setRoom, sendNewMessage, loading, sendingMessage]
+    [selectedFriend, roomMessages, setRoom, sendNewMessage, loading, sendingMessage]
   )
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>

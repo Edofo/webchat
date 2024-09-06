@@ -15,7 +15,7 @@ export class ChatMessage {
   id: string
 
   @Field()
-  text: string
+  content: string
 
   @Field(() => Date)
   createdAt: Date

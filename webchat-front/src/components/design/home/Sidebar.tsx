@@ -1,15 +1,18 @@
-import { Menu, MessageSquare, X } from 'lucide-react'
-import { useState } from 'react'
+import { ChevronRight, LogOut, Menu, MessageSquare, UserPlus, X } from 'lucide-react'
+import { useMemo, useState } from 'react'
 
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { useAuth } from '@/contexts/AuthContext'
 import { useChat } from '@/contexts/ChatContext'
-import { ChatRoom } from '@/types/chat'
+import { useFriend } from '@/contexts/FriendContext'
 
-interface SidebarProps {
-  chats: ChatRoom[]
-}
-
-export const Sidebar = ({ chats }: Readonly<SidebarProps>) => {
+export const Sidebar = () => {
+  const { user, logout } = useAuth()
   const { setRoom } = useChat()
+  const { friends, addFriend } = useFriend()
+
+  const friendsOnline = useMemo(() => friends.filter(friend => friend.isOnline), [friends])
+  const friendsOffline = useMemo(() => friends.filter(friend => !friend.isOnline), [friends])
 
   const [isOpen, setIsOpen] = useState(false)
   const toggleSidebar = () => setIsOpen(!isOpen)
@@ -31,23 +34,74 @@ export const Sidebar = ({ chats }: Readonly<SidebarProps>) => {
           md:relative md:translate-x-0
         `}
       >
-        <h2 className="text-2xl font-bold text-white mb-4">Chats</h2>
-        <ul className="space-y-2">
-          {chats.map(chat => (
-            <li key={chat.id}>
-              <button
-                onClick={() => {
-                  setRoom(chat)
-                  setIsOpen(false)
-                }}
-                className="w-full text-left p-3 rounded-lg bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors text-white flex items-center space-x-2"
-              >
-                <MessageSquare className="h-5 w-5" />
-                <span>{chat.name}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
+        <Popover>
+          <PopoverTrigger asChild>
+            <div className="flex items-center gap-2 mb-6 cursor-pointer  bg-white  bg-opacity-0 hover:bg-opacity-30 transition-colors py-2 rounded">
+              <img
+                src="https://i.pravatar.cc/300"
+                alt="Webchat"
+                className="w-14 h-14 rounded-full"
+              />
+              <div className="flex w-full justify-between items-center ">
+                <p className="text-center text-white text-opacity-80 font-bold">{user?.pseudo}</p>
+                <ChevronRight className="h-5 w-5 text-white" />
+              </div>
+            </div>
+          </PopoverTrigger>
+          <PopoverContent className="p-2 bg-white bg-opacity-10 backdrop-blur-lg rounded-lg shadow-md">
+            <button
+              onClick={logout}
+              className="flex items-center gap-2 w-full text-left p-3 rounded-lg  bg-white bg-opacity-0 hover:bg-opacity-30 transition-colors text-whit focus:outline-none text-white "
+            >
+              <LogOut className="h-5 w-5" />
+              Se déconnecter
+            </button>
+          </PopoverContent>
+        </Popover>
+        <h2 className="flex justify-between items-center text-2xl font-bold text-white mb-1">
+          Amis
+          <div className="cursor-pointer" onClick={() => addFriend('test')}>
+            <UserPlus className="h-5 w-5 text-white r" />
+          </div>
+        </h2>
+        <div>
+          <p className="text-white text-opacity-80 font-bold">{friendsOnline.length} Connecté</p>
+          <ul className="space-y-2 mt-2">
+            {friendsOnline.map(friend => (
+              <li key={friend.id}>
+                <button
+                  onClick={() => {
+                    setRoom({ id: friend.id, name: friend.pseudo })
+                    setIsOpen(false)
+                  }}
+                  className="w-full text-left p-3 rounded-lg bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors text-white flex items-center space-x-2"
+                >
+                  <MessageSquare className="h-5 w-5" />
+                  <span>{friend.pseudo}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="mt-4">
+          <p className="text-white text-opacity-80 font-bold">{friendsOffline.length} Hors ligne</p>
+          <ul className="space-y-2 mt-2">
+            {friendsOffline.map(friend => (
+              <li key={friend.id}>
+                <button
+                  onClick={() => {
+                    setRoom({ id: friend.id, name: friend.pseudo })
+                    setIsOpen(false)
+                  }}
+                  className="w-full text-left p-3 rounded-lg bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors text-white flex items-center space-x-2"
+                >
+                  <MessageSquare className="h-5 w-5" />
+                  <span>{friend.pseudo}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
       </aside>
       {isOpen && (
         <div

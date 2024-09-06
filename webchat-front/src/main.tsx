@@ -7,15 +7,18 @@ import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import { AuthProvider } from './contexts/AuthContext.tsx'
 import { ChatProvider } from './contexts/ChatContext.tsx'
+import { FriendProvider } from './contexts/FriendContext.tsx'
 import { getClient } from './http/client.ts'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ApolloProvider client={getClient()}>
       <AuthProvider>
-        <ChatProvider>
-          <App />
-        </ChatProvider>
+        <FriendProvider>
+          <ChatProvider>
+            <App />
+          </ChatProvider>
+        </FriendProvider>
       </AuthProvider>
     </ApolloProvider>
   </StrictMode>

@@ -1,10 +1,10 @@
 import { gql } from '@/__generated__/gql'
 
 export const GET_ROOMMESSAGES = gql(`
-  query getRoomMessages($roomId: String!) {
+  query GetRoomMessages($roomId: String!) {
     getRoomMessages(roomId: $roomId) {
       id
-      text
+      content
       createdAt
       user {
         id
@@ -15,10 +15,10 @@ export const GET_ROOMMESSAGES = gql(`
 `)
 
 export const SEND_MESSAGE = gql(`
-  mutation SendMessage($roomId: String!, $message: String!) {
-    sendMessage(roomId: $roomId, message: $message) {
+  mutation SendMessage($friendId: String!, $message: String!) {
+    sendMessage(friendId: $friendId, message: $message) {
       id
-      text
+      content
       createdAt
       user {
         id
@@ -29,10 +29,10 @@ export const SEND_MESSAGE = gql(`
 `)
 
 export const ON_MESSAGE_ADDED = gql(`
-  subscription userJoinedRoom($roomId: String!) {
-    userJoinedRoom(roomId: $roomId) {
+  subscription userJoinedRoom($friendId: String!) {
+    userJoinedRoom(friendId: $friendId) {
       id
-      text
+      content
       createdAt
       user {
         id

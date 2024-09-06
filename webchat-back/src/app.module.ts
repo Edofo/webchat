@@ -13,11 +13,13 @@ import { AuthModule } from '@modules/auth/auth.module'
 import { upperDirectiveTransformer } from '@common/directives/uper-case.directive'
 
 import { ChatModule } from './modules/chat/chat.module'
+import { FriendModule } from './modules/friend/friend.module'
 
 @Module({
   imports: [
     AuthModule,
     ChatModule,
+    FriendModule,
 
     // CORE
     ConfigurationModule,

@@ -16,9 +16,12 @@ const documents = {
     "\n  query GetMe {\n    getMe {\n      id\n      email\n      pseudo  \n    }\n  }\n": types.GetMeDocument,
     "\n  mutation Login($data: LoginInput!) {\n    login(data: $data) {\n      token\n      user {\n        id\n        email\n        pseudo\n      }\n    }\n  }\n": types.LoginDocument,
     "\n  mutation Register($data: RegisterInput!) {\n    register(data: $data) {\n      token\n      user {\n        id\n        email\n        pseudo\n      }\n    }\n  }\n": types.RegisterDocument,
-    "\n  query getRoomMessages($roomId: String!) {\n    getRoomMessages(roomId: $roomId) {\n      id\n      text\n      createdAt\n      user {\n        id\n        pseudo\n      }\n    }\n  }\n": types.GetRoomMessagesDocument,
-    "\n  mutation SendMessage($roomId: String!, $message: String!) {\n    sendMessage(roomId: $roomId, message: $message) {\n      id\n      text\n      createdAt\n      user {\n        id\n        pseudo\n      }\n    }\n  }\n": types.SendMessageDocument,
-    "\n  subscription userJoinedRoom($roomId: String!) {\n    userJoinedRoom(roomId: $roomId) {\n      id\n      text\n      createdAt\n      user {\n        id\n        pseudo\n      }\n    }\n  }\n": types.UserJoinedRoomDocument,
+    "\n  query GetRoomMessages($roomId: String!) {\n    getRoomMessages(roomId: $roomId) {\n      id\n      content\n      createdAt\n      user {\n        id\n        pseudo\n      }\n    }\n  }\n": types.GetRoomMessagesDocument,
+    "\n  mutation SendMessage($friendId: String!, $message: String!) {\n    sendMessage(friendId: $friendId, message: $message) {\n      id\n      content\n      createdAt\n      user {\n        id\n        pseudo\n      }\n    }\n  }\n": types.SendMessageDocument,
+    "\n  subscription userJoinedRoom($friendId: String!) {\n    userJoinedRoom(friendId: $friendId) {\n      id\n      content\n      createdAt\n      user {\n        id\n        pseudo\n      }\n    }\n  }\n": types.UserJoinedRoomDocument,
+    "\n  query GetMyFriends {\n    getMyFriends {\n      id\n      pseudo\n      isOnline\n    }\n  }\n": types.GetMyFriendsDocument,
+    "\n  mutation AddFriend($pseudo: String!) {\n    addFriend(pseudo: $pseudo) {\n      id\n      pseudo\n      isOnline\n    }\n  }\n": types.AddFriendDocument,
+    "\n  subscription userFriend {\n    userFriend {\n      id\n      pseudo\n      isOnline\n    }\n  }\n": types.UserFriendDocument,
 };
 
 /**
@@ -50,15 +53,27 @@ export function gql(source: "\n  mutation Register($data: RegisterInput!) {\n   
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  query getRoomMessages($roomId: String!) {\n    getRoomMessages(roomId: $roomId) {\n      id\n      text\n      createdAt\n      user {\n        id\n        pseudo\n      }\n    }\n  }\n"): (typeof documents)["\n  query getRoomMessages($roomId: String!) {\n    getRoomMessages(roomId: $roomId) {\n      id\n      text\n      createdAt\n      user {\n        id\n        pseudo\n      }\n    }\n  }\n"];
+export function gql(source: "\n  query GetRoomMessages($roomId: String!) {\n    getRoomMessages(roomId: $roomId) {\n      id\n      content\n      createdAt\n      user {\n        id\n        pseudo\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetRoomMessages($roomId: String!) {\n    getRoomMessages(roomId: $roomId) {\n      id\n      content\n      createdAt\n      user {\n        id\n        pseudo\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  mutation SendMessage($roomId: String!, $message: String!) {\n    sendMessage(roomId: $roomId, message: $message) {\n      id\n      text\n      createdAt\n      user {\n        id\n        pseudo\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation SendMessage($roomId: String!, $message: String!) {\n    sendMessage(roomId: $roomId, message: $message) {\n      id\n      text\n      createdAt\n      user {\n        id\n        pseudo\n      }\n    }\n  }\n"];
+export function gql(source: "\n  mutation SendMessage($friendId: String!, $message: String!) {\n    sendMessage(friendId: $friendId, message: $message) {\n      id\n      content\n      createdAt\n      user {\n        id\n        pseudo\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation SendMessage($friendId: String!, $message: String!) {\n    sendMessage(friendId: $friendId, message: $message) {\n      id\n      content\n      createdAt\n      user {\n        id\n        pseudo\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  subscription userJoinedRoom($roomId: String!) {\n    userJoinedRoom(roomId: $roomId) {\n      id\n      text\n      createdAt\n      user {\n        id\n        pseudo\n      }\n    }\n  }\n"): (typeof documents)["\n  subscription userJoinedRoom($roomId: String!) {\n    userJoinedRoom(roomId: $roomId) {\n      id\n      text\n      createdAt\n      user {\n        id\n        pseudo\n      }\n    }\n  }\n"];
+export function gql(source: "\n  subscription userJoinedRoom($friendId: String!) {\n    userJoinedRoom(friendId: $friendId) {\n      id\n      content\n      createdAt\n      user {\n        id\n        pseudo\n      }\n    }\n  }\n"): (typeof documents)["\n  subscription userJoinedRoom($friendId: String!) {\n    userJoinedRoom(friendId: $friendId) {\n      id\n      content\n      createdAt\n      user {\n        id\n        pseudo\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query GetMyFriends {\n    getMyFriends {\n      id\n      pseudo\n      isOnline\n    }\n  }\n"): (typeof documents)["\n  query GetMyFriends {\n    getMyFriends {\n      id\n      pseudo\n      isOnline\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation AddFriend($pseudo: String!) {\n    addFriend(pseudo: $pseudo) {\n      id\n      pseudo\n      isOnline\n    }\n  }\n"): (typeof documents)["\n  mutation AddFriend($pseudo: String!) {\n    addFriend(pseudo: $pseudo) {\n      id\n      pseudo\n      isOnline\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  subscription userFriend {\n    userFriend {\n      id\n      pseudo\n      isOnline\n    }\n  }\n"): (typeof documents)["\n  subscription userFriend {\n    userFriend {\n      id\n      pseudo\n      isOnline\n    }\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

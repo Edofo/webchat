@@ -20,14 +20,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   private static extractJwtFromCookie(req: Request) {
-    console.log('req.cookies', req.cookies)
     if (!req || !req.cookies) return null
     return req.cookies['jwt']
   }
 
   async validate({ id }: { id: string }) {
     const user = await this.authService.authenticateUser(id)
-    console.log('user', user)
     if (!user) throw new UnauthorizedException()
     return user
   }

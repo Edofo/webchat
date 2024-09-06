@@ -4,6 +4,7 @@ import { GetUser } from '@decorators/get-user.decorator'
 
 import { ChatMessage } from '../models/chat-object.model'
 import { ChatService } from '../services/chat.service'
+import { Public } from '@/decorators/public.decorator'
 import { pubSub } from '@/pubsub'
 import { AuthUser } from '@/types/modules/auth.types'
 
@@ -19,26 +20,28 @@ export class ChatResolver {
   @Mutation(() => ChatMessage)
   async sendMessage(
     @GetUser() user: AuthUser,
-    @Args('roomId') roomId: string,
+    @Args('friendId') friendId: string,
     @Args('message') message: string
   ): Promise<ChatMessage> {
-    const messageSent = await this.chatService.sendMessage(user, roomId, message)
-    pubSub.publish('userJoinedRoom-' + roomId, {
+    const messageSent = await this.chatService.sendMessage(user.id, friendId, message)
+    const payload: ChatMessage = {
       id: messageSent.id,
-      text: messageSent.text,
+      content: messageSent.content,
       createdAt: new Date(messageSent.createdAt),
       user: {
         id: user.id,
         pseudo: user.pseudo
       }
-    })
+    }
+    pubSub.publish(`userJoinedRoom-${friendId}-${user.id}`, payload)
     return messageSent
   }
 
+  @Public()
   @Subscription(() => ChatMessage, {
     resolve: payload => payload
   })
-  userJoinedRoom(@Args('roomId') roomId: string) {
-    return pubSub.asyncIterator(`userJoinedRoom-${roomId}`)
+  userJoinedRoom(@GetUser() { id: userId }: AuthUser, @Args('friendId') friendId: string) {
+    return pubSub.asyncIterator(`userJoinedRoom-${userId}-${friendId}`)
   }
 }
