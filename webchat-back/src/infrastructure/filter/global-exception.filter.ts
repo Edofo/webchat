@@ -23,10 +23,10 @@ export class GlobalExceptionFilter implements GqlExceptionFilter {
         this.constructor.name
       )
 
-      return new GraphQLError('Prisma client error', {
+      return new GraphQLError(exception.message, {
         extensions: {
           code: exception.code,
-          message: exception.message,
+          message: 'Prisma client error',
           exception
         }
       })

@@ -8,7 +8,6 @@ import { useToast } from './contexts/ToastContext'
 
 const App = () => {
   const { toasts, removeToast } = useToast()
-  console.log('App', toasts)
 
   return (
     <div>
