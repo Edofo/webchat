@@ -1,16 +1,17 @@
 import { Menu, MessageSquare, X } from 'lucide-react'
 import { useState } from 'react'
 
-import { Chat } from '@/types/chat'
+import { useChat } from '@/contexts/ChatContext'
+import { ChatRoom } from '@/types/chat'
 
 interface SidebarProps {
-  chats: Chat[]
-  onSelectChat: (chat: Chat) => void
+  chats: ChatRoom[]
 }
 
-export const Sidebar = ({ chats, onSelectChat }: Readonly<SidebarProps>) => {
-  const [isOpen, setIsOpen] = useState(false)
+export const Sidebar = ({ chats }: Readonly<SidebarProps>) => {
+  const { setRoom } = useChat()
 
+  const [isOpen, setIsOpen] = useState(false)
   const toggleSidebar = () => setIsOpen(!isOpen)
 
   return (
@@ -36,7 +37,7 @@ export const Sidebar = ({ chats, onSelectChat }: Readonly<SidebarProps>) => {
             <li key={chat.id}>
               <button
                 onClick={() => {
-                  onSelectChat(chat)
+                  setRoom(chat)
                   setIsOpen(false)
                 }}
                 className="w-full text-left p-3 rounded-lg bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors text-white flex items-center space-x-2"

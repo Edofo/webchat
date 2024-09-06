@@ -1,15 +1,17 @@
 import { Send } from 'lucide-react'
 
+import { useChat } from '@/contexts/ChatContext'
+
 interface MessageInputProps {
-  onSendMessage: (message: string) => void
   isActive: boolean
 }
 
-export const MessageInput = ({ onSendMessage, isActive }: Readonly<MessageInputProps>) => {
+export const MessageInput = ({ isActive }: Readonly<MessageInputProps>) => {
+  const { sendNewMessage } = useChat()
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     const message = (e.target as HTMLFormElement).message.value
-    onSendMessage(message)
+    sendNewMessage(message)
     ;(e.target as HTMLFormElement).reset()
   }
 

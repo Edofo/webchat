@@ -1,5 +1,10 @@
+import { AuthUser } from '@/__generated__/graphql'
+import { useAuth } from '@/contexts/AuthContext'
+
+import { Auth } from './design/auth/Auth'
+
 type AuthGuardsProps<T extends object = Record<string, never>> = {
-  render: React.FC<{} & T>
+  render: React.FC<{ user: AuthUser } & T>
   props?: T
 }
 
@@ -7,10 +12,11 @@ export const AuthGuard = <T extends object>({
   render: InnerComponent,
   props
 }: Readonly<AuthGuardsProps<T>>) => {
-  //   if (!user) {
-  //     return <Auth />
-  //   }
+  const { user } = useAuth()
 
-  //   return <InnerComponent user={user} {...(props as T)} />
-  return <InnerComponent {...(props as T)} />
+  if (!user) {
+    return <Auth />
+  }
+
+  return <InnerComponent user={user} {...(props as T)} />
 }

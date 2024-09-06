@@ -6,6 +6,7 @@ import { PassportModule } from '@nestjs/passport'
 import { JwtAuthGuard } from './guards/jwt-auth.guard'
 import { AuthResolver } from './resolvers/auth.resolver'
 import { AuthService } from './services/auth.service'
+import { JwtStrategy } from './strategies/jwt.strategy'
 import { ConfigurationModule } from '@/infrastructure/configuration/configuration.module'
 import { ConfigurationService } from '@/infrastructure/configuration/services/configuration.service'
 
@@ -26,6 +27,7 @@ import { ConfigurationService } from '@/infrastructure/configuration/services/co
   providers: [
     AuthResolver,
     AuthService,
+    JwtStrategy,
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard

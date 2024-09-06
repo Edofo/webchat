@@ -4,14 +4,30 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { useAuth } from '@/contexts/AuthContext'
+import { isValidEmail } from '@/lib/isValidData'
 
 export const SignIn = () => {
+  const { login } = useAuth()
+
   const [showPassword, setShowPassword] = useState(false)
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    // Ajoutez ici la logique de connexion
-    console.log('Login submitted')
+
+    const email = e.currentTarget.email.value
+    if (!isValidEmail(email)) {
+      alert('Invalid email')
+      return
+    }
+
+    const password = e.currentTarget.password.value
+    if (password.length < 6) {
+      alert('Password must be at least 6 characters')
+      return
+    }
+
+    login({ email, password })
   }
 
   return (

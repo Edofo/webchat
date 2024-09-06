@@ -1,4 +1,4 @@
-export interface Chat {
+export interface ChatRoom {
   id: string
   name: string
 }
