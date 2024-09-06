@@ -4,7 +4,6 @@ import { GetUser } from '@decorators/get-user.decorator'
 
 import { ChatMessage } from '../models/chat-object.model'
 import { ChatService } from '../services/chat.service'
-import { Public } from '@/decorators/public.decorator'
 import { pubSub } from '@/pubsub'
 import { AuthUser } from '@/types/modules/auth.types'
 
@@ -37,7 +36,6 @@ export class ChatResolver {
     return messageSent
   }
 
-  @Public()
   @Subscription(() => ChatMessage, {
     resolve: payload => payload
   })

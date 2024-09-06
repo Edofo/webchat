@@ -28,6 +28,12 @@ const authLink = setContext((_, { headers }) => {
 const wsLink = new GraphQLWsLink(
   createClient({
     url: `ws://${import.meta.env.VITE_API_URL}/subscriptions`,
+    connectionParams: () => ({
+      authorization: document.cookie
+        .split(';')
+        .find(cookie => cookie.includes('jwt'))
+        ?.slice(4)
+    }),
     on: {
       connected: () => console.log('WebSocket connected'),
       error: error => console.error('WebSocket error', error),

@@ -2,6 +2,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { Module } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
 import { DirectiveLocation, GraphQLDirective } from 'graphql'
+import { Context } from 'graphql-ws'
 import { join } from 'path'
 
 import { ConfigurationModule } from '@infrastructure/configuration/configuration.module'
@@ -32,7 +33,6 @@ import { FriendModule } from './modules/friend/friend.module'
       sortSchema: true,
       transformSchema: schema => upperDirectiveTransformer(schema, 'upper'),
       playground: true,
-      context: ({ req, res }) => ({ req, res }),
       buildSchemaOptions: {
         directives: [
           new GraphQLDirective({
@@ -43,11 +43,31 @@ import { FriendModule } from './modules/friend/friend.module'
       },
       subscriptions: {
         'graphql-ws': {
-          path: '/subscriptions'
-          // onConnect: () => {
-          //   console.log('Connected to websocket')
-          // }
+          path: '/subscriptions',
+          onConnect: (context: Context<any>) => {
+            const { connectionParams, extra } = context
+            const authToken = connectionParams?.authorization
+
+            if (authToken) {
+              // @ts-expect-error - The request object is not defined in the context
+              extra.request.cookies = {
+                jwt: authToken
+              }
+            }
+          }
         }
+      },
+      context: context => {
+        if (context?.req === undefined) {
+          // The jwt strategy requires a request with headers to perform jwt
+          // validation. If no request exists in the context object then we're
+          // dealing with a websocket connection. In that case pass along the
+          // request object provided by the `graphql-ws` context for validation.
+          context.req = context.extra.request
+        }
+
+        // return the context object.
+        return context
       }
     })
   ],

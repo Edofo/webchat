@@ -8,8 +8,8 @@ export const GetUser = createParamDecorator(
     const ctx = GqlExecutionContext.create(context)
     const req = ctx.getContext().req
 
-    if (req.user) return req.user as AuthUser
+    if (Boolean(req.user)) return req.user as AuthUser
 
-    throw new NotFoundException()
+    throw new NotFoundException('User not found')
   }
 )

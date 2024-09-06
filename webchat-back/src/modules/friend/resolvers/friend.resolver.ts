@@ -21,7 +21,6 @@ export class FriendResolver {
     @Args('pseudo') pseudo: string
   ): Promise<FriendResponse> {
     const { sender, receiver } = await this.friendService.addFriend(user.id, pseudo)
-    console.log(`userFriend-${receiver.id}`)
     pubSub.publish(`userFriend-${receiver.id}`, sender)
     return receiver
   }
