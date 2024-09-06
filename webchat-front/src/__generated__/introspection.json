@@ -538,7 +538,7 @@
             "description": null,
             "args": [
               {
-                "name": "roomId",
+                "name": "friendId",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",

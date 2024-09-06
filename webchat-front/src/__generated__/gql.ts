@@ -16,7 +16,7 @@ const documents = {
     "\n  query GetMe {\n    getMe {\n      id\n      email\n      pseudo  \n    }\n  }\n": types.GetMeDocument,
     "\n  mutation Login($data: LoginInput!) {\n    login(data: $data) {\n      token\n      user {\n        id\n        email\n        pseudo\n      }\n    }\n  }\n": types.LoginDocument,
     "\n  mutation Register($data: RegisterInput!) {\n    register(data: $data) {\n      token\n      user {\n        id\n        email\n        pseudo\n      }\n    }\n  }\n": types.RegisterDocument,
-    "\n  query GetRoomMessages($roomId: String!) {\n    getRoomMessages(roomId: $roomId) {\n      id\n      content\n      createdAt\n      user {\n        id\n        pseudo\n      }\n    }\n  }\n": types.GetRoomMessagesDocument,
+    "\n  query GetRoomMessages($friendId: String!) {\n    getRoomMessages(friendId: $friendId) {\n      id\n      content\n      createdAt\n      user {\n        id\n        pseudo\n      }\n    }\n  }\n": types.GetRoomMessagesDocument,
     "\n  mutation SendMessage($friendId: String!, $message: String!) {\n    sendMessage(friendId: $friendId, message: $message) {\n      id\n      content\n      createdAt\n      user {\n        id\n        pseudo\n      }\n    }\n  }\n": types.SendMessageDocument,
     "\n  subscription userJoinedRoom($friendId: String!) {\n    userJoinedRoom(friendId: $friendId) {\n      id\n      content\n      createdAt\n      user {\n        id\n        pseudo\n      }\n    }\n  }\n": types.UserJoinedRoomDocument,
     "\n  query GetMyFriends {\n    getMyFriends {\n      id\n      pseudo\n      isOnline\n    }\n  }\n": types.GetMyFriendsDocument,
@@ -53,7 +53,7 @@ export function gql(source: "\n  mutation Register($data: RegisterInput!) {\n   
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  query GetRoomMessages($roomId: String!) {\n    getRoomMessages(roomId: $roomId) {\n      id\n      content\n      createdAt\n      user {\n        id\n        pseudo\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetRoomMessages($roomId: String!) {\n    getRoomMessages(roomId: $roomId) {\n      id\n      content\n      createdAt\n      user {\n        id\n        pseudo\n      }\n    }\n  }\n"];
+export function gql(source: "\n  query GetRoomMessages($friendId: String!) {\n    getRoomMessages(friendId: $friendId) {\n      id\n      content\n      createdAt\n      user {\n        id\n        pseudo\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetRoomMessages($friendId: String!) {\n    getRoomMessages(friendId: $friendId) {\n      id\n      content\n      createdAt\n      user {\n        id\n        pseudo\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

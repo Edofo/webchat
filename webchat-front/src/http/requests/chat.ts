@@ -1,8 +1,8 @@
 import { gql } from '@/__generated__/gql'
 
 export const GET_ROOMMESSAGES = gql(`
-  query GetRoomMessages($roomId: String!) {
-    getRoomMessages(roomId: $roomId) {
+  query GetRoomMessages($friendId: String!) {
+    getRoomMessages(friendId: $friendId) {
       id
       content
       createdAt

@@ -27,7 +27,7 @@ export const ChatProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [selectedFriend, setSelectedFriend] = useState<ChatRoom | undefined>(undefined)
 
   const { subscribeToMore, data, loading, refetch } = useQuery(GET_ROOMMESSAGES, {
-    variables: selectedFriend ? { roomId: selectedFriend.id } : undefined,
+    variables: selectedFriend ? { friendId: selectedFriend.id } : undefined,
     skip: !selectedFriend
   })
 
@@ -44,7 +44,7 @@ export const ChatProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const setRoom = useCallback(
     (room: ChatRoom) => {
       setSelectedFriend(room)
-      refetch({ roomId: room.id })
+      refetch({ friendId: room.id })
     },
     [refetch]
   )

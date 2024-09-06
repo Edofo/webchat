@@ -48,7 +48,7 @@ type Mutation {
 type Query {
   getMe: AuthUser!
   getMyFriends: [FriendResponse!]!
-  getRoomMessages(roomId: String!): [ChatMessage!]!
+  getRoomMessages(friendId: String!): [ChatMessage!]!
 }
 
 input RegisterInput {

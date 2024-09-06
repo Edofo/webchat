@@ -54,6 +54,14 @@ import { FriendModule } from './modules/friend/friend.module'
                 jwt: authToken
               }
             }
+          },
+          onDisconnect: () => {
+            // Do something on disconnect
+            console.log('Disconnected')
+          },
+          onClose: () => {
+            // Do something on close
+            console.log('Closed')
           }
         }
       },

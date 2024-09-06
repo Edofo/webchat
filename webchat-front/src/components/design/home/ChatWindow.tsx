@@ -17,7 +17,7 @@ export const ChatWindow = () => {
             //   message.sender === 'me' ? 'ml-auto bg-blue-500 text-white' : 'bg-white text-gray-800'
             // }`}
           >
-            <p>{message.text}</p>
+            <p>{message.content}</p>
             <span className="text-xs opacity-75">
               {new Date(message.createdAt).toLocaleTimeString()}
             </span>

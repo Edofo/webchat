@@ -11,7 +11,7 @@ import DialogAddFriend from '../dialog/AddFriend'
 export const Sidebar = () => {
   const { user, logout } = useAuth()
   const { setRoom } = useChat()
-  const { friends, addFriend } = useFriend()
+  const { friends } = useFriend()
 
   const friendsOnline = useMemo(() => friends.filter(friend => friend.isOnline), [friends])
   const friendsOffline = useMemo(() => friends.filter(friend => !friend.isOnline), [friends])
@@ -63,7 +63,7 @@ export const Sidebar = () => {
           </PopoverContent>
         </Popover>
         <h2 className="flex justify-between items-center text-2xl font-bold text-white mb-1">
-          Amis
+          Friends
           <div
             className="cursor-pointer p-2 bg-white bg-opacity-0 hover:bg-opacity-30 transition-colors rounded"
             onClick={() => setIsOpenDialogFriend(true)}
@@ -72,7 +72,7 @@ export const Sidebar = () => {
           </div>
         </h2>
         <div>
-          <p className="text-white text-opacity-80 font-bold">{friendsOnline.length} Connecté</p>
+          <p className="text-white text-opacity-80 font-bold">{friendsOnline.length} Online</p>
           <ul className="space-y-2 mt-2">
             {friendsOnline.map(friend => (
               <li key={friend.id}>
@@ -91,7 +91,7 @@ export const Sidebar = () => {
           </ul>
         </div>
         <div className="mt-4">
-          <p className="text-white text-opacity-80 font-bold">{friendsOffline.length} Hors ligne</p>
+          <p className="text-white text-opacity-80 font-bold">{friendsOffline.length} Offline</p>
           <ul className="space-y-2 mt-2">
             {friendsOffline.map(friend => (
               <li key={friend.id}>

@@ -12,8 +12,8 @@ export class ChatResolver {
   constructor(private readonly chatService: ChatService) {}
 
   @Query(() => [ChatMessage])
-  async getRoomMessages(@Args('roomId') roomId: string): Promise<ChatMessage[]> {
-    return await this.chatService.getRoomMessages(roomId)
+  async getRoomMessages(@Args('friendId') friendId: string): Promise<ChatMessage[]> {
+    return await this.chatService.getRoomMessages(friendId)
   }
 
   @Mutation(() => ChatMessage)
