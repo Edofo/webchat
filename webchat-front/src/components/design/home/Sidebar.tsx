@@ -6,6 +6,8 @@ import { useAuth } from '@/contexts/AuthContext'
 import { useChat } from '@/contexts/ChatContext'
 import { useFriend } from '@/contexts/FriendContext'
 
+import DialogAddFriend from '../dialog/AddFriend'
+
 export const Sidebar = () => {
   const { user, logout } = useAuth()
   const { setRoom } = useChat()
@@ -15,6 +17,8 @@ export const Sidebar = () => {
   const friendsOffline = useMemo(() => friends.filter(friend => !friend.isOnline), [friends])
 
   const [isOpen, setIsOpen] = useState(false)
+  const [isOpenDialogFriend, setIsOpenDialogFriend] = useState(false)
+
   const toggleSidebar = () => setIsOpen(!isOpen)
 
   return (
@@ -62,7 +66,7 @@ export const Sidebar = () => {
           Amis
           <div
             className="cursor-pointer p-2 bg-white bg-opacity-0 hover:bg-opacity-30 transition-colors rounded"
-            onClick={() => addFriend('test')}
+            onClick={() => setIsOpenDialogFriend(true)}
           >
             <UserPlus className="h-5 w-5 text-white r" />
           </div>
@@ -113,6 +117,8 @@ export const Sidebar = () => {
           aria-hidden="true"
         />
       )}
+
+      <DialogAddFriend isOpen={isOpenDialogFriend} onClose={() => setIsOpenDialogFriend(false)} />
     </>
   )
 }

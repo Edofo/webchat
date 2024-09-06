@@ -1,6 +1,4 @@
-import { HttpLink, NormalizedCacheObject, split } from '@apollo/client'
-import { ApolloClient, InMemoryCache } from '@apollo/client'
-import { loadDevMessages, loadErrorMessages } from '@apollo/client/dev'
+import { ApolloClient, HttpLink, InMemoryCache, NormalizedCacheObject, split } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions'
 import { getMainDefinition } from '@apollo/client/utilities'
@@ -11,9 +9,6 @@ const httpLink = new HttpLink({
   uri: `http://${import.meta.env.VITE_API_URL}/graphql`,
   credentials: 'include'
 })
-
-loadDevMessages()
-loadErrorMessages()
 
 const authLink = setContext((_, { headers }) => {
   const cookies = document.cookie

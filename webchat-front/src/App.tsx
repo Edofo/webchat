@@ -1,13 +1,14 @@
 import { lazy, Suspense } from 'react'
 
 import LoadingPage from './components/design/LoadingPage'
-import { useToast } from './hooks/useToast'
 
 const AuthHomePage = lazy(() => import('@pages/Home'))
 import { Toast } from './components/design/Toast'
+import { useToast } from './contexts/ToastContext'
 
 const App = () => {
   const { toasts, removeToast } = useToast()
+  console.log('App', toasts)
 
   return (
     <div>

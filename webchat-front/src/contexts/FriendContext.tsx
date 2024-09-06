@@ -4,6 +4,8 @@ import React, { createContext, ReactNode, useCallback, useContext, useEffect, us
 import type { FriendResponse } from '@/__generated__/graphql'
 import { ADD_FRIEND, GET_MYFRIENDS, ON_FRIEND_ADDED } from '@/http/requests/friend'
 
+import { useToast } from './ToastContext'
+
 interface FriendContextType {
   friends: FriendResponse[]
   addFriend: (pseudo: string) => Promise<void>
@@ -13,15 +15,23 @@ interface FriendContextType {
 const FriendContext = createContext<FriendContextType | undefined>(undefined)
 
 export const FriendProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const { addToast } = useToast()
   const { subscribeToMore, data, loading, refetch } = useQuery(GET_MYFRIENDS)
 
   const [addFriendMutation] = useMutation(ADD_FRIEND)
 
   const addFriend = useCallback(
     async (pseudo: string) => {
-      await addFriendMutation({ variables: { pseudo }, onCompleted: () => refetch() })
+      await addFriendMutation({
+        variables: { pseudo },
+        onCompleted: () => {
+          addToast('Friend added', 'success')
+          refetch()
+        },
+        onError: error => addToast(error.message, 'error')
+      })
     },
-    [addFriendMutation, refetch]
+    [addFriendMutation, refetch, addToast]
   )
 
   const friends = useMemo(() => data?.getMyFriends || [], [data])

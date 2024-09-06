@@ -1,5 +1,6 @@
-import { ToastType } from '@hooks/useToast'
 import { AlertCircle, CheckCircle, Info, X, XCircle } from 'lucide-react'
+
+import { ToastType } from '@/contexts/ToastContext'
 
 interface ToastProps {
   message: string
@@ -39,7 +40,7 @@ export const Toast = ({ message, type, onClose }: ToastProps) => {
       </div>
       <button
         onClick={onClose}
-        className="ml-4 text-white hover:text-gray-200 focus:outline-none"
+        className="ml-4 text-white hover:text-gray-200 focus:outline-none bg-transparent p-1"
         aria-label="Close"
       >
         <X className="h-5 w-5" />

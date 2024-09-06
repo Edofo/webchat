@@ -9,10 +9,10 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
 
   async onModuleInit() {
     try {
-      this.logger.log('Connecting to the database', this.constructor.name)
+      this.logger.info('Connecting to the database', this.constructor.name)
       await this.$connect()
     } catch (error) {
-      this.logger.error('Error connecting to the database', String(error), this.constructor.name)
+      this.logger.error('Error connecting to the database', this.constructor.name, String(error))
       throw error
     }
   }
@@ -23,7 +23,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
 
   async enableShutdownHooks(app: INestApplication) {
     process.on('beforeExit', async () => {
-      this.logger.log('Disconnecting from the database', this.constructor.name)
+      this.logger.info('Disconnecting from the database', this.constructor.name)
       await app.close()
     })
   }
