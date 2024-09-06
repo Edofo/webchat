@@ -2,12 +2,9 @@ import { Send } from 'lucide-react'
 
 import { useChat } from '@/contexts/ChatContext'
 
-interface MessageInputProps {
-  isActive: boolean
-}
+export const MessageInput = () => {
+  const { sendNewMessage, loadingMessage } = useChat()
 
-export const MessageInput = ({ isActive }: Readonly<MessageInputProps>) => {
-  const { sendNewMessage } = useChat()
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     const message = (e.target as HTMLFormElement).message.value
@@ -27,7 +24,7 @@ export const MessageInput = ({ isActive }: Readonly<MessageInputProps>) => {
         <button
           type="submit"
           className="p-2 rounded-full bg-blue-500 text-white hover:bg-blue-600 transition-colors"
-          disabled={!isActive}
+          disabled={loadingMessage}
         >
           <Send className="h-6 w-6" />
         </button>

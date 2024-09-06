@@ -19,7 +19,7 @@ const HomePage = () => {
       <main className="flex flex-col h-full relative w-full">
         <ChatWindow />
         <div className="absolute bottom-0 left-0 right-0">
-          <MessageInput isActive />
+          <MessageInput />
         </div>
       </main>
     </>
