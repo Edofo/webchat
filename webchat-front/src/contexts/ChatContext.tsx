@@ -36,9 +36,14 @@ export const ChatProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const sendNewMessage = useCallback(
     async (message: string) => {
       if (!selectedFriend) return
-      await sendMessage({ variables: { friendId: selectedFriend.id, message } })
+      await sendMessage({
+        variables: { friendId: selectedFriend.id, message },
+        onCompleted: () => {
+          // refetch({ friendId: selectedFriend.id })
+        }
+      })
     },
-    [selectedFriend, sendMessage]
+    [selectedFriend, sendMessage, refetch]
   )
 
   const setRoom = useCallback(
@@ -57,6 +62,7 @@ export const ChatProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       document: ON_MESSAGE_ADDED,
       variables: { friendId: selectedFriend.id },
       updateQuery: (prev, { subscriptionData }) => {
+        console.log(subscriptionData)
         if (!subscriptionData.data) return prev
         const newMessage = subscriptionData.data.userJoinedRoom
         return {

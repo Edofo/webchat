@@ -32,7 +32,8 @@ export class ChatResolver {
         pseudo: user.pseudo
       }
     }
-    pubSub.publish(`userJoinedRoom-${friendId}-${user.id}`, payload)
+    const roomId = [user.id, friendId].sort().join('-')
+    pubSub.publish(`userJoinedRoom-${roomId}`, payload)
     return messageSent
   }
 
@@ -40,6 +41,7 @@ export class ChatResolver {
     resolve: payload => payload
   })
   userJoinedRoom(@GetUser() { id: userId }: AuthUser, @Args('friendId') friendId: string) {
-    return pubSub.asyncIterator(`userJoinedRoom-${userId}-${friendId}`)
+    const roomId = [userId, friendId].sort().join('-')
+    return pubSub.asyncIterator(`userJoinedRoom-${roomId}`)
   }
 }

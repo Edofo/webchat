@@ -41,6 +41,7 @@ type LoginResponse {
 type Mutation {
   addFriend(pseudo: String!): FriendResponse!
   login(data: LoginInput!): LoginResponse!
+  logout: Boolean!
   register(data: RegisterInput!): RegisterResponse!
   sendMessage(friendId: String!, message: String!): ChatMessage!
 }

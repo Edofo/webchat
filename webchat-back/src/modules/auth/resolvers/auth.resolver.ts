@@ -42,4 +42,9 @@ export class AuthResolver {
       token: await this.authService.generateAccessToken(user.id)
     }
   }
+
+  @Mutation(() => Boolean)
+  async logout(@GetUser() { id: userId }: AuthUser): Promise<boolean> {
+    return await this.authService.logout(userId)
+  }
 }

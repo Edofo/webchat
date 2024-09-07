@@ -48,7 +48,8 @@ export class AuthService {
       data: {
         pseudo: data.pseudo,
         email: data.email,
-        password: hashedPassword
+        password: hashedPassword,
+        isOnline: true
       },
       select: {
         id: true,
@@ -68,10 +69,23 @@ export class AuthService {
     const validPassword = await bcrypt.compare(data.password, user.password)
     if (!validPassword) throw new ConflictException('Invalid credentials')
 
+    await this.prismaService.user.update({
+      where: { email: data.email },
+      data: { isOnline: true }
+    })
+
     return {
       id: user.id,
       pseudo: user.pseudo,
       email: user.email
     }
+  }
+
+  async logout(userId: string): Promise<boolean> {
+    await this.prismaService.user.update({
+      where: { id: userId },
+      data: { isOnline: false }
+    })
+    return true
   }
 }

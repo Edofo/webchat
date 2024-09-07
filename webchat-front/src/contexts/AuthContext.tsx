@@ -10,7 +10,9 @@ import type {
   RegisterMutation
 } from '@/__generated__/graphql'
 import { JWT_COOKIE_NAME } from '@/constants/cookies'
-import { GET_ME, LOGIN, REGISTER } from '@/http/requests/auth'
+import { GET_ME, LOGIN, LOGOUT, REGISTER } from '@/http/requests/auth'
+
+import { useToast } from './ToastContext'
 
 interface AuthContextType {
   user: AuthUser | undefined
@@ -23,6 +25,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [_, setCookie, removeCookie] = useCookies([JWT_COOKIE_NAME])
+  const { addToast } = useToast()
 
   const [user, setUser] = useState<AuthUser | undefined>(undefined)
 
@@ -36,6 +39,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     onCompleted: ({ login }) => {
       setUser(login.user)
       setCookie(JWT_COOKIE_NAME, login.token)
+      window.location.reload()
+    },
+    onError: () => {
+      addToast('Invalid credentials', 'error')
     }
   })
 
@@ -43,6 +50,21 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     onCompleted: ({ register }) => {
       setUser(register.user)
       setCookie(JWT_COOKIE_NAME, register.token)
+      window.location.reload()
+    },
+    onError: () => {
+      addToast('Invalid credentials', 'error')
+    }
+  })
+
+  const [logout] = useMutation(LOGOUT, {
+    onCompleted: () => {
+      setUser(undefined)
+      removeCookie(JWT_COOKIE_NAME)
+      window.location.reload()
+    },
+    onError: () => {
+      addToast('Failed to logout', 'error')
     }
   })
 
@@ -50,13 +72,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     () => ({
       user,
       login: async data => await login({ variables: { data } }),
-      logout: () => {
-        setUser(undefined)
-        removeCookie(JWT_COOKIE_NAME)
-      },
+      logout: async () => await logout(),
       register: async data => await register({ variables: { data } })
     }),
-    [user, login, register, removeCookie]
+    [user, login, logout, register]
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

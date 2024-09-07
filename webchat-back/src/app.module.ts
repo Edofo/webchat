@@ -54,27 +54,11 @@ import { FriendModule } from './modules/friend/friend.module'
                 jwt: authToken
               }
             }
-          },
-          onDisconnect: () => {
-            // Do something on disconnect
-            console.log('Disconnected')
-          },
-          onClose: () => {
-            // Do something on close
-            console.log('Closed')
           }
         }
       },
       context: context => {
-        if (context?.req === undefined) {
-          // The jwt strategy requires a request with headers to perform jwt
-          // validation. If no request exists in the context object then we're
-          // dealing with a websocket connection. In that case pass along the
-          // request object provided by the `graphql-ws` context for validation.
-          context.req = context.extra.request
-        }
-
-        // return the context object.
+        if (context?.req === undefined) context.req = context.extra.request
         return context
       }
     })
