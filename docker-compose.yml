@@ -17,7 +17,7 @@ services:
     ports:
       - "4000:4000"
     volumes:
-      - ./webchat-back/env:/app/.env
+      - ./webchat-back/.env:/app/.env
     environment:
       - DATABASE_URL=postgres://postgres:postgres@db:5432/postgres
     depends_on:

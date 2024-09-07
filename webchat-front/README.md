@@ -57,7 +57,7 @@ To build the frontend in production mode:
 pnpm build
 ```
 
-This will launch the application at `http://localhost:3000`.
+This will launch the application at `http://localhost:5173`.
 
 You can also run the frontend with Docker Compose. To do so, ensure Docker and Docker Compose are installed and run the following commands:
 

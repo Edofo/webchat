@@ -81,6 +81,7 @@ To start the frontend, backend, and database services all at once, run the follo
 
 ```bash
 docker-compose up --build
+cd webchat-back/ && pnpm i && pnpm prisma migrate dev
 ```
 
 This will:

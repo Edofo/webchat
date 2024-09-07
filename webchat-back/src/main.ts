@@ -25,7 +25,7 @@ async function bootstrap() {
   app.use(urlencoded({ extended: true, limit: '50mb' }))
   app.use(helmet({ contentSecurityPolicy: false }))
   app.enableCors({
-    origin: 'http://localhost:5173',
+    origin: ['http://localhost', 'http://localhost:5173', 'http://localhost:80'],
     credentials: true
   })
   app.use(cookieParser())
