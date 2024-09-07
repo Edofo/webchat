@@ -1,50 +1,103 @@
-# React + TypeScript + Vite
+# WebChat Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Description
 
-Currently, two official plugins are available:
+This is the frontend of the **WebChat** application, built with React, providing real-time messaging and friend management functionalities. It communicates with a backend GraphQL API and leverages `graphql-ws` for real-time communication.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Prerequisites
 
-## Expanding the ESLint configuration
+Ensure the following tools are installed on your machine:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **Node.js** (version 22.x or higher)
+- **pnpm** (instead of npm or yarn)
+- **Docker** and **Docker Compose** (for running the application via containers)
 
-- Configure the top-level `parserOptions` property like this:
+## Setup
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+Clone the project repository:
+
+```bash
+git clone https://github.com/Edofo/webchat
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Navigate to the Frontend Directory
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+cd webchat-front
 ```
+
+Install dependencies
+
+If you are not using Docker Compose, you can install the project dependencies manually using `pnpm`:
+
+```bash
+pnpm install
+```
+
+## Configuration
+
+Create a .env file at the root of the project and add the necessary environment variables. 
+An example is already provided in `.env.example`.
+
+## Start the Backend
+
+Before starting the frontend, make sure the backend server is up and running. For backend setup and instructions, refer to the backend README [here](../webchat-back/readme.md).
+
+## Running the Application
+
+To start the frontend in development mode:
+
+```bash
+pnpm dev
+```
+
+To build the frontend in production mode:
+
+```bash
+pnpm build
+```
+
+This will launch the application at `http://localhost:3000`.
+
+You can also run the frontend with Docker Compose. To do so, ensure Docker and Docker Compose are installed and run the following commands:
+
+```bash
+docker-compose up -d --build
+```
+
+This will launch the application at `http://localhost:80`.
+
+
+## Preview the Production Build
+
+To preview the production build locally, you can use:
+
+```bash
+pnpm preview
+```
+
+## Running Tests
+
+To run unit tests:
+
+```bash
+pnpm test
+```
+
+For code coverage reports:
+
+```bash
+pnpm test:coverage
+```
+
+## Useful Scripts
+
+Here are some additional scripts you can use during development and deployment:
+
+- `pnpm dev`: Starts the application in development mode.
+- `pnpm build`: Builds the application for production.
+- `pnpm lint`: Runs ESLint to analyze and fix potential code issues.
+- `pnpm test`: Runs the unit tests.
+- `pnpm test:coverage`: Runs tests and generates code coverage reports.
+- `pnpm prepare`: Husky hooks for pre-commit checks.
+- `pnpm generate`: Runs GraphQL code generation using the configuration in `client/codegen.ts`.

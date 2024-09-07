@@ -13,7 +13,7 @@ COPY . ./
 ENV NODE_ENV=production
 
 # Build app
-RUN pnpm global add dotenv-cli && dotenv -e .env -- pnpm build
+RUN npm i -g dotenv-cli && dotenv -e .env -- pnpm build
 
 FROM nginx:stable-alpine AS run
 

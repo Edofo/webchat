@@ -8,7 +8,7 @@ COPY package.json pnpm-lock.yaml ./
 
 RUN npm i -g pnpm && pnpm install --frozen-lockfile
 COPY . .
-RUN pnpm build && pnpm prisma generate
+RUN pnpm prisma generate && pnpm build 
 
 # Production stage
 FROM node:22-alpine

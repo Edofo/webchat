@@ -1,73 +1,105 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
-
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+# Webchat Backend
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This project is an application based on NestJS, a progressive Node.js framework for building efficient and scalable server-side applications.
 
-## Installation
+## Prerequisites
 
-```bash
-$ pnpm install
-```
+Ensure the following tools are installed on your machine:
 
-## Running the app
+- **Node.js** (version 22.x or higher)
+- **pnpm** (instead of npm or yarn)
+- **Docker** and **Docker Compose** (for running the application via containers)
 
-```bash
-# development
-$ pnpm run start
+## Setup:
 
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
-```
-
-## Test
+Clone the project repository:
 
 ```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+git clone https://github.com/Edofo/webchat
 ```
 
-## Support
+Navigate to the project directory:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```bash
+cd webchat-back
+```
 
-## Stay in touch
+Install dependencies:
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+If you are not using Docker Compose, you can install the project dependencies manually using `pnpm`:
 
-## License
+```bash
+pnpm install
+```
 
-Nest is [MIT licensed](LICENSE).
+## Configuration
+
+Create a .env file at the root of the project and add the necessary environment variables. 
+An example is already provided in `.env.example`.
+
+## Database
+
+If you are **not using Docker**, you will need to set up a PostgreSQL database on your machine. Follow these additional steps:
+
+1. Install PostgreSQL if it's not already installed.
+2. Ensure that your `.env` file contains the correct information to connect to the PostgreSQL database (host, port, user, password, database name).
+3. Once the database is set up, run the following command to apply the Prisma migrations to the database:
+
+```bash
+pnpm prisma migrate dev
+```
+
+## Running the Application
+
+To start the application in development mode:
+
+```bash
+pnpm start:dev
+```
+
+To start the application in production mode:
+
+```bash
+pnpm build
+pnpm start:prod
+```
+
+You can also run the frontend with Docker Compose. To do so, ensure Docker and Docker Compose are installed and run the following commands:
+
+```bash
+docker compose up -d --build
+pnpm prisma migrate dev
+```
+
+The Graphql Playground URL is available at http://localhost:4000/graphql.
+
+### Tests
+
+To run unit tests:
+
+```bash
+pnpm test
+```
+
+To run tests with code coverage:
+
+```bash
+pnpm test:cov
+```
+
+To run end-to-end tests:
+
+```bash
+pnpm test:e2e
+```
+
+## Useful Scripts
+
+Here are some additional scripts you can use:
+
+`pnpm start:debug`: Starts the application in development mode with debugging support.
+`pnpm lint`: Runs ESLint to analyze the code and find potential issues.
+`pnpm prisma generate`: Generate prisma client from prisma schema
+`pnpm prisma migrate dev`: To migrate the database
