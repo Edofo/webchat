@@ -21,7 +21,6 @@ export class FriendResolver {
     @Args('pseudo') pseudo: string
   ): Promise<FriendResponse> {
     const { sender, receiver } = await this.friendService.addFriend(user.id, pseudo)
-    console.log(`userFriend-${receiver.id}`, sender)
     pubSub.publish(`userFriend-${receiver.id}`, sender)
     return receiver
   }
@@ -30,7 +29,6 @@ export class FriendResolver {
     resolve: payload => payload
   })
   userFriend(@GetUser() user: AuthUser) {
-    console.log(`userFriend-${user.id}`)
     return pubSub.asyncIterator(`userFriend-${user.id}`)
   }
 }

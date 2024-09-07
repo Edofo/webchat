@@ -37,13 +37,10 @@ export const ChatProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     async (message: string) => {
       if (!selectedFriend) return
       await sendMessage({
-        variables: { friendId: selectedFriend.id, message },
-        onCompleted: () => {
-          // refetch({ friendId: selectedFriend.id })
-        }
+        variables: { friendId: selectedFriend.id, message }
       })
     },
-    [selectedFriend, sendMessage, refetch]
+    [selectedFriend, sendMessage]
   )
 
   const setRoom = useCallback(

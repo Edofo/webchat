@@ -9,7 +9,6 @@ export const ChatWindow = () => {
 
   useEffect(() => {
     if (!roomMessages || !room) return
-    // on roomMessages change scroll to bottom
     const chatWindow = document.querySelector('.flex-1')
     if (chatWindow) {
       chatWindow.scrollTop = chatWindow.scrollHeight
