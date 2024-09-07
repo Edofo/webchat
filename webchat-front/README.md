@@ -41,7 +41,7 @@ An example is already provided in `.env.example`.
 
 ## Start the Backend
 
-Before starting the frontend, make sure the backend server is up and running. For backend setup and instructions, refer to the backend README [here](../webchat-back/readme.md).
+Before starting the frontend, make sure the backend server is up and running. For backend setup and instructions, refer to the backend README [here](../webchat-back/README.md).
 
 ## Running the Application
 
